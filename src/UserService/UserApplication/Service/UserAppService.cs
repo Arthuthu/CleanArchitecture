@@ -22,7 +22,6 @@ namespace UserApplication.Service
 				return null;
 			}
 
-			user.Id = Guid.NewGuid();
 			return await _repository.Add(user, cancellationToken);
 		}
 

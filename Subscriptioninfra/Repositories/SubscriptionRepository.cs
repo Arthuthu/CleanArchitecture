@@ -24,7 +24,7 @@ namespace SubscriptionInfra.Repositories
 
 		public async Task<Subscription?> Get(Guid id, CancellationToken cancellationToken)
 		{
-			Subscription? subscription = await _context.Subscription.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+			Subscription? subscription = await _context.Subscription.FindAsync(id, cancellationToken);
 			return subscription;
 		}
 

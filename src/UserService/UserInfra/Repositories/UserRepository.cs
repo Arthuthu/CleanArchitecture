@@ -24,7 +24,7 @@ namespace UserInfra.Repositories
 
 		public async Task<User?> Get(Guid id, CancellationToken cancellationToken)
 		{
-			User? user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+			User? user = await _context.Users.FindAsync(id, cancellationToken);
 			return user;
 		}
 

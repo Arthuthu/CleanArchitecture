@@ -11,10 +11,10 @@ namespace UserApi.Configuration
 	{
 		public static IServiceCollection AddApplicationDependencyInjection(this IServiceCollection services)
 		{
-			//Application
+			//AppService
 			services.AddScoped<IUserAppService, UserAppService>();
 
-			//Infra
+			//Repository
 			services.AddScoped<IUserRepository, UserRepository>();
 
 			return services;

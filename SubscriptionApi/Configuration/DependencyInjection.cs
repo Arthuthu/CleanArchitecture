@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SubscriptionApplication.Abstractions.AppServices;
+using SubscriptionApplication.Repositories;
+using SubscriptionApplication.Services;
 using SubscriptionInfra.Context;
+using SubscriptionInfra.Repositories;
 
 namespace SubscriptionApi.Configuration
 {
@@ -7,9 +11,11 @@ namespace SubscriptionApi.Configuration
 	{
 		public static IServiceCollection AddApplicationDependencyInjection(this IServiceCollection services)
 		{
-			//Application
+			//AppService
+			services.AddScoped<ISubscriptionAppService, SubscriptionAppService>();
 
-			//Infra
+			//Repository
+			services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
 			return services;
 		}

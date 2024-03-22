@@ -1,10 +1,8 @@
-﻿using SubscriptionDomain.Enums;
-
-namespace SubscriptionApi.Dtos.Responses
+﻿namespace SubscriptionApi.Dtos.Responses
 {
 	public sealed class SubscriptionResponse
 	{
-		public SubscriptionType Type { get; set; }
+		public string? Name { get; set; }
 		public decimal MonthlyPrice { get; set; }
 	}
 }

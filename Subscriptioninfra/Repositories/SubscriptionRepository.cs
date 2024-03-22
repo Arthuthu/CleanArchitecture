@@ -43,7 +43,7 @@ namespace SubscriptionInfra.Repositories
 				return null;
 			}
 
-			requestedSubscription.Type = subscription.Type;
+			requestedSubscription.Name = subscription.Name;
 			requestedSubscription.MonthlyPrice = subscription.MonthlyPrice;
 
 			_context.Subscription.Update(requestedSubscription);

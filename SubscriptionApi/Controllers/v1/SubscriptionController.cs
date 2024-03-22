@@ -100,7 +100,7 @@ namespace SubscriptionApi.Controllers.v1
         }
 
         [HttpDelete]
-        [Route("api/v1/delete/{id}")]
+        [Route("v1/subscription/delete/{id}")]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             try

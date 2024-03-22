@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Providers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\UserApplication\UserApplication.csproj" />
   </ItemGroup>
 

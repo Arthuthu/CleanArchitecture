@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SubscriptionDomain.Entities;
-using SubscriptionDomain.Enums;
-using SubscriptionInfra.Mapping;
 
 namespace SubscriptionInfra.Mapping
 {
@@ -18,8 +15,8 @@ namespace SubscriptionInfra.Mapping
 
 			builder.HasKey(x => x.Id);
 
+			builder.Property(x => x.Name).HasMaxLength(40);
 			builder.Property(x => x.MonthlyPrice).HasPrecision(15, 2);
-			builder.Property(x => x.Type).HasMaxLength(40).HasConversion(new EnumToStringConverter<SubscriptionType>());
 		}
 	}
 }

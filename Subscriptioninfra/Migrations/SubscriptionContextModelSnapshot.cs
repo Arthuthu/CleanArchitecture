@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserDomain.Context;
+using SubscriptionInfra.Context;
 
 #nullable disable
 
-namespace SubscrionInfra.Migrations
+namespace SubscriptionInfra.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SubscriptionContext))]
+    partial class SubscriptionContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,32 +22,24 @@ namespace SubscrionInfra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserDomain.Entities.User", b =>
+            modelBuilder.Entity("SubscriptionDomain.Entities.Subscription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<decimal>("MonthlyPrice")
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Password")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
-                    b.Property<Guid?>("SubscriptionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email");
-
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Subscriptions", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using UserDomain.Context;
 namespace UserInfra.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240319172532_MigrationTeste")]
-    partial class MigrationTeste
+    [Migration("20240321233614_AddedSubscriptionIdProperty")]
+    partial class AddedSubscriptionIdProperty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace UserInfra.Migrations
                     b.Property<string>("Password")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
+
+                    b.Property<Guid?>("SubscriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

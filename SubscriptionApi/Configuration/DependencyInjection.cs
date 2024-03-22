@@ -1,21 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UserApplication.Abstractions.AppServices;
-using UserApplication.Abstractions.Repositories;
-using UserApplication.Services;
-using UserDomain.Context;
-using UserInfra.Repositories;
+using SubscriptionInfra.Context;
 
-namespace UserApi.Configuration
+namespace SubscriptionApi.Configuration
 {
 	public static class DependencyInjection
 	{
 		public static IServiceCollection AddApplicationDependencyInjection(this IServiceCollection services)
 		{
 			//Application
-			services.AddScoped<IUserAppService, UserAppService>();
 
 			//Infra
-			services.AddScoped<IUserRepository, UserRepository>();
 
 			return services;
 		}
@@ -23,10 +17,10 @@ namespace UserApi.Configuration
 		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,
 			IConfiguration config)
 		{
-			services.AddDbContext<UserContext>(options =>
+			services.AddDbContext<SubscriptionContext>(options =>
 			{
-				options.UseSqlServer(config.GetConnectionString("UserConnection"),
-					assembly => assembly.MigrationsAssembly(typeof(UserContext)
+				options.UseSqlServer(config.GetConnectionString("SubscriptionConnection"),
+					assembly => assembly.MigrationsAssembly(typeof(SubscriptionContext)
 					.Assembly.FullName));
 			});
 

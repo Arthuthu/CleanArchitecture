@@ -31,14 +31,14 @@ namespace UserApi.Controllers
 
 				if (user is null)
 				{
-					return BadRequest("Esse email ja esta sendo utilizado");
+					return BadRequest("This email has already been registered");
 				}
 
 				return Ok(_mapper.Map<UserResponse>(result));
 			}
 			catch (Exception ex)
 			{
-				return BadRequest(ex.Message);
+				return BadRequest($"An error has occurred when registering the user { ex.Message } ");
 			}
 		}
 
@@ -52,14 +52,14 @@ namespace UserApi.Controllers
 
 				if (result is null)
 				{
-					return NotFound("Usuario não encontrado");
+					return NotFound("User not found");
 				}
 
 				return Ok(result);
 			}
 			catch (Exception ex)
 			{
-				return BadRequest(ex.Message);
+				return BadRequest($"An error has occurred while searching for the user { ex.Message }");
 			}
 		}
 
@@ -73,14 +73,14 @@ namespace UserApi.Controllers
 
 				if (result.Count == 0)
 				{
-					return NotFound("Nenhum usuário encontrado no banco de dados");
+					return NotFound("No users found");
 				}
 
 				return Ok(result);
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"Ocorreu um erro ao pesquisar os usuários: { ex.Message }");
+				return BadRequest($"An error has occurred when searching for the users: { ex.Message }");
 			}
 		}
 
@@ -91,13 +91,18 @@ namespace UserApi.Controllers
 			try
 			{
 				User user = _mapper.Map<User>(userRequest);
-				await _service.Update(user, cancellationToken);
+				User? result = await _service.Update(user, cancellationToken);
 
-				return Ok("Usuario atualizado");
+				if (result is null)
+				{
+					return NotFound("User not found");
+				}
+
+				return Ok("User updated");
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"Ocorreu um erro ao atualizar o usuário { ex.Message }");
+				return BadRequest($"An error has ocurred when updating the user: { ex.Message }");
 			}
 		}
 
@@ -111,14 +116,14 @@ namespace UserApi.Controllers
 
 				if (result is false)
 				{
-					return NotFound("Usuário não encontrado");
+					return NotFound("User not found");
 				}
 
-				return Ok("Usuário deletado com sucesso");
+				return Ok("User successfully deleted");
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"Ocorreu um erro interno ao deletar o usuário { ex.Message }");
+				return BadRequest($"An error has ocurred while deleting the user: { ex.Message }");
 			}
 		}
 	}

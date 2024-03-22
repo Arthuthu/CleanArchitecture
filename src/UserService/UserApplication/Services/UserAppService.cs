@@ -2,7 +2,7 @@
 using UserApplication.Abstractions.Repositories;
 using UserDomain.Entities;
 
-namespace UserApplication.Service
+namespace UserApplication.Services
 {
 	public class UserAppService : IUserAppService
 	{
@@ -35,9 +35,9 @@ namespace UserApplication.Service
 			return await _repository.Get(cancellationToken);
 		}
 
-		public async Task Update(User user, CancellationToken cancellationToken)
+		public async Task<User?> Update(User user, CancellationToken cancellationToken)
 		{
-			await _repository.Update(user, cancellationToken);
+			return await _repository.Update(user, cancellationToken);
 		}
 
 		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)

@@ -24,23 +24,23 @@ namespace UserInfra.Repositories
 
 		public async Task<User?> Get(Guid id, CancellationToken cancellationToken)
 		{
-			User? result = await _context.Users.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
-			return result;
+			User? user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+			return user;
 		}
 
 		public async Task<List<User>> Get(CancellationToken cancellationToken)
 		{
-			List<User> result = await _context.Users.ToListAsync(cancellationToken);
-			return result;
+			List<User> users = await _context.Users.ToListAsync(cancellationToken);
+			return users;
 		}
 
-		public async Task Update(User user, CancellationToken cancellationToken)
+		public async Task<User?> Update(User user, CancellationToken cancellationToken)
 		{
 			User? requestedUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == user.Id, cancellationToken);
 
 			if (requestedUser is null)
 			{
-				return;
+				return null;
 			}
 
 			requestedUser.Name = user.Name;
@@ -48,12 +48,14 @@ namespace UserInfra.Repositories
 
 			_context.Users.Update(requestedUser);
 			await _context.SaveChangesAsync(cancellationToken);
+
+			return user;
 		}
 
 		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
 		{
-			int result = await _context.Users.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
-			return result > 0;
+			int affectedRows = await _context.Users.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
+			return affectedRows > 0;
 		}
 
 		public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken)

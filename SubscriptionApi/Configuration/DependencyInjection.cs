@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using SubscriptionApplication.Abstractions.AppServices;
 using SubscriptionApplication.Repositories;
 using SubscriptionApplication.Services;
@@ -43,6 +44,27 @@ namespace SubscriptionApi.Configuration
 					.AllowAnyOrigin()
 					.AllowAnyHeader()
 					.AllowAnyMethod();
+				});
+			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddMassTransitService(this IServiceCollection services, IConfiguration config)
+		{
+			services.AddMassTransit(busConfigurator =>
+			{
+				busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+				busConfigurator.UsingRabbitMq((context, configurator) =>
+				{
+					configurator.Host(new Uri(config["MessageBroker:Host"]!), h =>
+					{
+						h.Username(config["MessageBroker:Username"]);
+						h.Password(config["MessageBroker:Password"]);
+					});
+
+					configurator.ConfigureEndpoints(context);
 				});
 			});
 

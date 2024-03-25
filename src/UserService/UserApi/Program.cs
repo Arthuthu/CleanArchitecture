@@ -4,9 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 builder.Services
-	.AddApplicationDependencyInjection()
-	.AddApplicationDbContext(config)
-	.AddCorsPolicy();
+.AddApplicationDependencyInjection()
+.AddApplicationDbContext(config)
+.AddCorsPolicy()
+.AddMassTransitService(config);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -3,6 +3,7 @@ using UserApplication.Abstractions.AppServices;
 using UserApplication.Abstractions.Repositories;
 using UserApplication.Services;
 using UserDomain.Context;
+using MassTransit;
 using UserInfra.Repositories;
 
 namespace UserApi.Configuration
@@ -43,6 +44,27 @@ namespace UserApi.Configuration
 					.AllowAnyOrigin()
 					.AllowAnyHeader()
 					.AllowAnyMethod();
+				});
+			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddMassTransitService(this IServiceCollection services, IConfiguration config)
+		{
+			services.AddMassTransit(busConfigurator =>
+			{
+				busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+				busConfigurator.UsingRabbitMq((context, configurator) =>
+				{
+					configurator.Host(new Uri(config["MessageBroker:Host"]!), h =>
+					{
+						h.Username(config["MessageBroker:Username"]);
+						h.Password(config["MessageBroker:Password"]);
+					});
+
+					configurator.ConfigureEndpoints(context);
 				});
 			});
 

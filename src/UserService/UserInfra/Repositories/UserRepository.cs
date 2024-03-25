@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Contracts;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using UserApplication.Abstractions.Repositories;
 using UserDomain.Context;
 using UserDomain.Entities;
@@ -8,16 +10,23 @@ namespace UserInfra.Repositories
 	public sealed class UserRepository : IUserRepository
 	{
 		private readonly UserContext _context;
+		private readonly IPublishEndpoint _publishEndpoint;
 
-		public UserRepository(UserContext context)
+		public UserRepository(UserContext context, IPublishEndpoint publishEndpoint)
 		{
 			_context = context;
+			_publishEndpoint = publishEndpoint;
 		}
 
 		public async Task<User> Add(User user, CancellationToken cancellationToken)
 		{
 			_context.Users.Add(user);
 			await _context.SaveChangesAsync(cancellationToken);
+			await _publishEndpoint.Publish(new SubscriptionEvent
+			{
+				Name = "User Created",
+				MonthlyPrice = 50
+			}, cancellationToken);
 
 			return user;
 		}

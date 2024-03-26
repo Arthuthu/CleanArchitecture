@@ -9,6 +9,7 @@ namespace SubscriptionApi.AutoMapper
         public DomainToResponseProfile()
         {
             CreateMap<Subscription, SubscriptionResponse>(MemberList.Destination);
+            CreateMap<Contract, ContractResponse>(MemberList.Destination);
         }
     }
 }

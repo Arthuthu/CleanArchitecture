@@ -25,10 +25,10 @@ namespace SubscriptionApi.Configuration
 		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,
 			IConfiguration config)
 		{
-			services.AddDbContext<SubscriptionContext>(options =>
+			services.AddDbContext<ApplicationDbContext>(options =>
 			{
 				options.UseSqlServer(config.GetConnectionString("SubscriptionConnection"),
-					assembly => assembly.MigrationsAssembly(typeof(SubscriptionContext)
+					assembly => assembly.MigrationsAssembly(typeof(ApplicationDbContext)
 					.Assembly.FullName));
 			});
 

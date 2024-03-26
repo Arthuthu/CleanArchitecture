@@ -7,9 +7,9 @@ namespace SubscriptionInfra.Consumers
 {
 	public sealed class SubscriptionConsumer : IConsumer<SubscriptionEvent>
 	{
-		private readonly SubscriptionContext _context;
+		private readonly ApplicationDbContext _context;
 
-		public SubscriptionConsumer(SubscriptionContext context)
+		public SubscriptionConsumer(ApplicationDbContext context)
 		{
 			_context = context;
 		}

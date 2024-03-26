@@ -3,9 +3,9 @@ using SubscriptionDomain.Entities;
 
 namespace SubscriptionInfra.Context
 {
-	public class SubscriptionContext : DbContext
+	public class ApplicationDbContext : DbContext
 	{
-        public SubscriptionContext(DbContextOptions<SubscriptionContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 

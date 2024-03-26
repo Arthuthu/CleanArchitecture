@@ -23,11 +23,12 @@ namespace UserInfra.Repositories
 			_context.Users.Add(user);
 			await _context.SaveChangesAsync(cancellationToken);
 
-			await _publishEndpoint.Publish(new SubscriptionEvent
-			{
-				Name = "User Created",
-				MonthlyPrice = 50
-			}, cancellationToken);
+
+			//await _publishEndpoint.Publish(new SubscriptionEvent
+			//{
+			//	Name = "User Created",
+			//	MonthlyPrice = 50
+			//}, cancellationToken);
 
 			return user;
 		}

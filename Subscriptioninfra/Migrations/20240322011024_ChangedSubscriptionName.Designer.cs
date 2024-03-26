@@ -11,7 +11,7 @@ using SubscriptionInfra.Context;
 
 namespace SubscriptionInfra.Migrations
 {
-    [DbContext(typeof(SubscriptionContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240322011024_ChangedSubscriptionName")]
     partial class ChangedSubscriptionName
     {

@@ -7,9 +7,9 @@ namespace SubscriptionInfra.Repositories
 {
 	public sealed class SubscriptionRepository : ISubscriptionRepository
 	{
-		private readonly SubscriptionContext _context;
+		private readonly ApplicationDbContext _context;
 
-		public SubscriptionRepository(SubscriptionContext context)
+		public SubscriptionRepository(ApplicationDbContext context)
 		{
 			_context = context;
 		}

@@ -109,7 +109,7 @@ namespace SubscriptionApi.Controllers.v1
 
                 if (result is false)
                 {
-                    return NotFound("Subscription was not delete, it has not been found");
+                    return NotFound("Subscription was not deleted, it has not been found");
                 }
 
                 return Ok("Subscription has been successfully deleted");

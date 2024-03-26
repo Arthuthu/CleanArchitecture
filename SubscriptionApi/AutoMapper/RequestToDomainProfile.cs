@@ -9,6 +9,7 @@ namespace SubscriptionApi.AutoMapper
         public RequestToDomainProfile()
         {
             CreateMap<SubscriptionRequest, Subscription>(MemberList.Destination);
+            CreateMap<ContractRequest, Contract>(MemberList.Destination);
         }
     }
 }

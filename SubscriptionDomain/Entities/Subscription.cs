@@ -6,5 +6,7 @@ namespace SubscriptionDomain.Entities
 	{
 		public string? Name { get; set; }
 		public decimal MonthlyPrice { get; set; }
+
+		public Contract? Contract { get; set; }
 	}
 }

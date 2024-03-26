@@ -3,7 +3,7 @@ using SubscriptionDomain.Entities;
 
 namespace SubscriptionInfra.Mapping
 {
-	public class SubscriptionMapping : BaseMapping<Subscription>
+	public sealed class SubscriptionMapping : BaseMapping<Subscription>
 	{
         public SubscriptionMapping() : base("Subscriptions")
         {

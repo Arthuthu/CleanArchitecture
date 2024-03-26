@@ -10,6 +10,7 @@ namespace SubscriptionInfra.Context
         }
 
         public DbSet<Subscription> Subscription { get; set; }
+		public DbSet<Contract> Contract { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

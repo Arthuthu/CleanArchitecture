@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using UserApplication.Abstractions.Repositories;
@@ -23,7 +24,6 @@ namespace UserInfra.Repositories
 			_context.Users.Add(user);
 			await _context.SaveChangesAsync(cancellationToken);
 
-
 			await _publishEndpoint.Publish(new ContractEvent
 			{
 				UserId = user.Id
@@ -35,6 +35,7 @@ namespace UserInfra.Repositories
 		public async Task<User?> Get(Guid id, CancellationToken cancellationToken)
 		{
 			User? user = await _context.Users.FindAsync(id, cancellationToken);
+
 			return user;
 		}
 

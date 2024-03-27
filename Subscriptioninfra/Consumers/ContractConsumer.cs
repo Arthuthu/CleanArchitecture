@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using SubscriptionDomain.Entities;
@@ -6,7 +6,7 @@ using SubscriptionInfra.Context;
 
 namespace SubscriptionInfra.Consumers
 {
-	public sealed class ContractConsumer : IConsumer<ContractEvent>
+    public sealed class ContractConsumer : IConsumer<ContractEvent>
 	{
 		private readonly ApplicationDbContext _context;
 

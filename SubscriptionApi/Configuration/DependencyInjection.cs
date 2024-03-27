@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using SubscriptionApplication.Abstractions.AppServices;
+using SubscriptionApplication.Abstractions.Repositories;
 using SubscriptionApplication.Repositories;
 using SubscriptionApplication.Services;
 using SubscriptionInfra.Consumers;
@@ -15,9 +16,11 @@ namespace SubscriptionApi.Configuration
 		{
 			//AppService
 			services.AddScoped<ISubscriptionAppService, SubscriptionAppService>();
+			services.AddScoped<IContractAppService, ContractAppService>();
 
 			//Repository
 			services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+			services.AddScoped<IContractRepository, ContractRepository>();
 
 			return services;
 		}
@@ -57,7 +60,7 @@ namespace SubscriptionApi.Configuration
 			{
 				busConfigurator.SetKebabCaseEndpointNameFormatter();
 
-				busConfigurator.AddConsumer<SubscriptionConsumer>();
+				busConfigurator.AddConsumer<ContractConsumer>();
 
 				busConfigurator.UsingRabbitMq((context, configurator) =>
 				{

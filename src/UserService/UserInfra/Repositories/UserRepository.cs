@@ -1,5 +1,4 @@
-﻿using Contracts;
-using Contracts.Events;
+﻿using Contracts.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using UserApplication.Abstractions.Repositories;

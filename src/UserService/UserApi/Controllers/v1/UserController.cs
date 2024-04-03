@@ -64,7 +64,7 @@ namespace UserApi.Controllers.v1
         }
 
         [HttpGet]
-        [Route("v1/users/get")]
+        [Route("v1/user/get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             try
@@ -85,7 +85,7 @@ namespace UserApi.Controllers.v1
         }
 
         [HttpPut]
-        [Route("v1/users/update")]
+        [Route("v1/user/update")]
         public async Task<IActionResult> Update([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
         {
             try

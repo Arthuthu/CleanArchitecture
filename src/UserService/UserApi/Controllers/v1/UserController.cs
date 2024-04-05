@@ -48,14 +48,14 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                User? result = await _service.Get(id, cancellationToken);
+                User? user = await _service.Get(id, cancellationToken);
 
-                if (result is null)
+                if (user is null)
                 {
                     return NotFound("User not found");
                 }
 
-                return Ok(result);
+                return Ok(_mapper.Map<UserResponse>(user));
             }
             catch (Exception ex)
             {
@@ -69,14 +69,14 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                List<User> result = await _service.Get(cancellationToken);
+                List<User> users = await _service.Get(cancellationToken);
 
-                if (result.Count == 0)
+                if (users.Count == 0)
                 {
                     return NotFound("No users found");
                 }
 
-                return Ok(result);
+                return Ok(_mapper.Map<List<UserResponse>>(users));
             }
             catch (Exception ex)
             {

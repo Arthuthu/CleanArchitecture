@@ -20,6 +20,8 @@ namespace SubscriptionApi.Controllers.v1
 
 		[HttpPost]
 		[Route("v1/contract/add")]
+		[ProducesResponseType(typeof(ContractResponse), 200),
+		 ProducesResponseType(500)]
 		public async Task<IActionResult> Add([FromBody] ContractRequest request, CancellationToken cancellationToken)
 		{
 			try
@@ -31,12 +33,15 @@ namespace SubscriptionApi.Controllers.v1
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"An error ocurred while adding the contract {ex.Message}");
+				return StatusCode(StatusCodes.Status500InternalServerError,
+					$"An error ocurred while adding the contract {ex.Message}");
 			}
 		}
 
 		[HttpGet]
 		[Route("v1/contract/get/{id}")]
+		[ProducesResponseType(typeof(ContractResponse), 200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
 		public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
 		{
 			try
@@ -52,12 +57,15 @@ namespace SubscriptionApi.Controllers.v1
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"An error has occurred while searching for the contract: {ex.Message}");
+				return StatusCode(StatusCodes.Status500InternalServerError, 
+					 $"An error has occurred while searching for the contract: {ex.Message}");
 			}
 		}
 
 		[HttpGet]
 		[Route("v1/contract/get")]
+		[ProducesResponseType(typeof(ContractResponse), 200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
 		public async Task<IActionResult> Get(CancellationToken cancellationToken)
 		{
 			try
@@ -69,17 +77,20 @@ namespace SubscriptionApi.Controllers.v1
 					return NotFound("No contracts were found");
 				}
 
-				return Ok(contracts);
+				return Ok(_mapper.Map<List<Contract>>(contracts));
 
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"An error has occurred while searching for the contracts: {ex.Message}");
+				return StatusCode(StatusCodes.Status500InternalServerError, 
+					 $"An error has occurred while searching for the contracts: {ex.Message}");
 			}
 		}
 
 		[HttpPut]
 		[Route("v1/contract/update")]
+		[ProducesResponseType(typeof(ContractResponse), 200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
 		public async Task<IActionResult> Update([FromBody] ContractRequest request, CancellationToken cancellationToken)
 		{
 			try
@@ -92,16 +103,19 @@ namespace SubscriptionApi.Controllers.v1
 					return NotFound("An error has occurred while updating the contract, contract not found");
 				}
 
-				return Ok(result);
+				return Ok(_mapper.Map<ContractResponse>(result));
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"An error has occurred while updating the contract: {ex.Message}");
+				return StatusCode(StatusCodes.Status500InternalServerError, 
+					 $"An error has occurred while updating the contract: {ex.Message}");
 			}
 		}
 
 		[HttpDelete]
 		[Route("v1/contract/delete/{id}")]
+		[ProducesResponseType(typeof(ContractResponse), 200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
 		public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
 		{
 			try
@@ -117,7 +131,8 @@ namespace SubscriptionApi.Controllers.v1
 			}
 			catch (Exception ex)
 			{
-				return BadRequest($"An error has occurred while deleting the contract: {ex.Message}");
+				return StatusCode(StatusCodes.Status500InternalServerError, 
+					 $"An error has occurred while deleting the contract: {ex.Message}");
 			}
 		}
 	}

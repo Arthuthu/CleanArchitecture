@@ -22,6 +22,8 @@ namespace UserApi.Controllers.v1
         [AllowAnonymous]
         [HttpPost]
         [Route("v1/user/add")]
+        [ProducesResponseType(typeof(UserResponse), 200),
+         ProducesResponseType(400), ProducesResponseType(500)]
         public async Task<IActionResult> Add([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
         {
             try
@@ -38,12 +40,15 @@ namespace UserApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has occurred when registering the user {ex.Message} ");
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"An error has occurred when registering the user {ex.Message} ");
             }
         }
 
         [HttpGet]
         [Route("v1/user/get/{id}")]
+        [ProducesResponseType(typeof(UserResponse), 200),
+         ProducesResponseType(404), ProducesResponseType(500)]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
             try
@@ -59,13 +64,16 @@ namespace UserApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has occurred while searching for the user {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"An error has occurred while searching for the user {ex.Message}");
             }
         }
 
         [HttpGet]
         [Route("v1/user/get")]
-        public async Task<IActionResult> Get(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(List<UserResponse>), 200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
+		public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             try
             {
@@ -80,13 +88,16 @@ namespace UserApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has occurred when searching for the users: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"An error has occurred when searching for the users: {ex.Message}");
             }
         }
 
         [HttpPut]
         [Route("v1/user/update")]
-        public async Task<IActionResult> Update([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
+		[ProducesResponseType (200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
+		public async Task<IActionResult> Update([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
         {
             try
             {
@@ -102,13 +113,16 @@ namespace UserApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has ocurred when updating the user: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"An error has ocurred when updating the user: {ex.Message}");
             }
         }
 
         [HttpDelete]
         [Route("v1/user/delete/{id}")]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+		[ProducesResponseType(200),
+		 ProducesResponseType(404), ProducesResponseType(500)]
+		public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             try
             {
@@ -123,7 +137,8 @@ namespace UserApi.Controllers.v1
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error has ocurred while deleting the user: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    $"An error has ocurred while deleting the user: {ex.Message}");
             }
         }
     }

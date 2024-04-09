@@ -44,9 +44,9 @@ namespace UserInfra.Repositories
 			return users;
 		}
 
-		public async Task<User?> Update(User user, CancellationToken cancellationToken)
+		public async Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken)
 		{
-			User? requestedUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == user.Id, cancellationToken);
+			User? requestedUser = await _context.Users.SingleOrDefaultAsync(x => x.Id == userId, cancellationToken);
 
 			if (requestedUser is null)
 			{

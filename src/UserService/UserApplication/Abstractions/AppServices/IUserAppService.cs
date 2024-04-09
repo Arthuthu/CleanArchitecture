@@ -8,6 +8,6 @@ namespace UserApplication.Abstractions.AppServices
         Task<bool> Delete(Guid id, CancellationToken cancellationToken);
         Task<List<User>> Get(CancellationToken cancellationToken);
         Task<User?> Get(Guid id, CancellationToken cancellationToken);
-        Task<User?> Update(User user, CancellationToken cancellationToken);
+        Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken);
     }
 }

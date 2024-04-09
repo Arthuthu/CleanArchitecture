@@ -35,9 +35,9 @@ namespace UserApplication.Services
 			return await _repository.Get(cancellationToken);
 		}
 
-		public async Task<User?> Update(User user, CancellationToken cancellationToken)
+		public async Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken)
 		{
-			return await _repository.Update(user, cancellationToken);
+			return await _repository.Update(userId, user, cancellationToken);
 		}
 
 		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)

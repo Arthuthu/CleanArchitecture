@@ -94,22 +94,22 @@ namespace UserApi.Controllers.v1
         }
 
         [HttpPut]
-        [Route("v1/user/update")]
+        [Route("v1/user/{userId}/update")]
 		[ProducesResponseType (200),
 		 ProducesResponseType(404), ProducesResponseType(500)]
-		public async Task<IActionResult> Update([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update(Guid userId, [FromBody] UserRequest userRequest, CancellationToken cancellationToken)
         {
             try
             {
                 User user = _mapper.Map<User>(userRequest);
-                User? result = await _service.Update(user, cancellationToken);
+                User? result = await _service.Update(userId, user, cancellationToken);
 
                 if (result is null)
                 {
                     return NotFound("User not found");
                 }
 
-                return Ok("User updated");
+                return Ok(_mapper.Map<UserResponse>(result));
             }
             catch (Exception ex)
             {

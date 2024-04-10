@@ -7,7 +7,8 @@ builder.Services
 .AddApplicationDependencyInjection()
 .AddApplicationDbContext(config)
 .AddCorsPolicy()
-.AddMassTransitService(config);
+.AddMassTransitService(config)
+.AddJwtAuthentication(config);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("OpenCorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -7,6 +7,9 @@ using MassTransit;
 using UserInfra.Repositories;
 using Microsoft.AspNetCore.Identity;
 using UserInfra.Context.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace UserApi.Configuration
 {
@@ -76,6 +79,33 @@ namespace UserApi.Configuration
 					configurator.ConfigureEndpoints(context);
 				});
 			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
+		{
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					string? securitKey = config["Jwt:Key"];
+					if (string.IsNullOrEmpty(securitKey))
+					{
+						throw new Exception("Error authenticating the user, the JwtKey value was not found");
+					}
+
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = config["Jwt:Issuer"],
+						ValidAudience = config["Jwt:Issuer"],
+						IssuerSigningKey = new SymmetricSecurityKey(
+							Encoding.UTF8.GetBytes(securitKey))
+					};
+				});
 
 			return services;
 		}

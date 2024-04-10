@@ -5,6 +5,8 @@ using UserApplication.Services;
 using UserDomain.Context;
 using MassTransit;
 using UserInfra.Repositories;
+using Microsoft.AspNetCore.Identity;
+using UserInfra.Context.Authentication;
 
 namespace UserApi.Configuration
 {
@@ -18,6 +20,9 @@ namespace UserApi.Configuration
 			//Repository
 			services.AddScoped<IUserRepository, UserRepository>();
 
+			//Others
+			services.AddScoped<IAuthenticate, AuthenticateService>();
+
 			return services;
 		}
 
@@ -30,6 +35,10 @@ namespace UserApi.Configuration
 					assembly => assembly.MigrationsAssembly(typeof(UserContext)
 					.Assembly.FullName));
 			});
+
+			services.AddIdentity<IdentityUser, IdentityRole>()
+				.AddEntityFrameworkStores<UserContext>()
+				.AddDefaultTokenProviders();
 
 			return services;
 		}

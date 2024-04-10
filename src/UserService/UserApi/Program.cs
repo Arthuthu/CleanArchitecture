@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using UserApi.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,33 @@ builder.Services
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+	{
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey,
+		Scheme = "Bearer",
+		BearerFormat = "JWT",
+		In = ParameterLocation.Header,
+		Description = "JWT Authorzation header using the Bearer scheme"
+	});
+
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string [] { }
+		}
+	});
+});
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

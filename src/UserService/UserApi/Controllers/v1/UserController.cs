@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserApi.Dtos.Requests;
@@ -8,7 +9,8 @@ using UserDomain.Entities;
 
 namespace UserApi.Controllers.v1
 {
-    public class UserController : Controller
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	public class UserController : Controller
     {
         private readonly IUserAppService _service;
         private readonly IMapper _mapper;
@@ -19,11 +21,10 @@ namespace UserApi.Controllers.v1
             _service = appService;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("v1/user/add")]
-        [ProducesResponseType(typeof(UserResponse), 200),
-         ProducesResponseType(400), ProducesResponseType(500)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK),
+         ProducesResponseType(StatusCodes.Status400BadRequest), ProducesResponseType(500)]
         public async Task<IActionResult> Add([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
         {
             try

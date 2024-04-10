@@ -27,7 +27,7 @@ namespace UserInfra.Context.Authentication
 			await _signInManager.SignOutAsync();
 		}
 
-		public async Task<bool> RegisterUser(string email, string password)
+		public async Task<string> RegisterUser(string email, string password)
 		{
 			IdentityUser appUser = new()
 			{ 
@@ -37,12 +37,17 @@ namespace UserInfra.Context.Authentication
 
 			var result = await _userManager.CreateAsync(appUser, password);
 
-			if(result.Succeeded)
+			if (result.Errors.Any())
+			{
+				return result.Errors.FirstOrDefault()!.Description;
+			}
+
+			if (result.Succeeded)
 			{
 				await _signInManager.SignInAsync(appUser, isPersistent: false);
 			}
 
-			return result.Succeeded;
+			return "Usuário registrado";
 		}
 	}
 }

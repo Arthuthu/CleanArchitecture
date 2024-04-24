@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -22,6 +23,7 @@ namespace UserApi.Controllers.v1
 		[HttpPost("v1/createuser")]
 		[ProducesResponseType (200)]
 		[ProducesResponseType (400)]
+		[AllowAnonymous]
 		public async Task<ActionResult<UserToken>> CreateUser([FromBody] RegisterModel model)
 		{
 			if (model.Password != model.ConfirmPassword)
@@ -47,6 +49,7 @@ namespace UserApi.Controllers.v1
 		}
 
 		[HttpPost("v1/login")]
+		[AllowAnonymous]
 		public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
 		{
 			if (string.IsNullOrEmpty(userInfo.Email) && string.IsNullOrWhiteSpace(userInfo.Password))

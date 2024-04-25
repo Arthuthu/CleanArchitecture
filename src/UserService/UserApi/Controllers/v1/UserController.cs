@@ -95,7 +95,7 @@ namespace UserApi.Controllers.v1
         }
 
         [HttpPut]
-        [Route("v1/user/{userId}/update")]
+        [Route("v1/user/update/{userId}")]
 		[ProducesResponseType (200),
 		 ProducesResponseType(404), ProducesResponseType(500)]
 		public async Task<IActionResult> Update(Guid userId, [FromBody] UserRequest userRequest, CancellationToken cancellationToken)

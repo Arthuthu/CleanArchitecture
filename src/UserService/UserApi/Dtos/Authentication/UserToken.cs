@@ -3,6 +3,7 @@
 	public sealed class UserToken
 	{
 		public string? Token { get; set; }
+		public string? Username { get; set; }
 		public DateTime Expiration { get; set; }
 	}
 }

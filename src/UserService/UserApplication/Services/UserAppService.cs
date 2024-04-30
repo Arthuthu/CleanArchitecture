@@ -44,5 +44,11 @@ namespace UserApplication.Services
 		{
 			return await _repository.Delete(id, cancellationToken);
 		}
+
+		public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken)
+		{
+			User? requestedUser = await _repository.GetByEmail(email, cancellationToken);
+			return requestedUser;
+		}
 	}
 }

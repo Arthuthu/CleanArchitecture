@@ -1,6 +1,8 @@
 ﻿using Contracts.Events;
 using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using UserApplication.Abstractions.Repositories;
 using UserDomain.Context;
 using UserDomain.Entities;
@@ -11,11 +13,15 @@ namespace UserInfra.Repositories
 	{
 		private readonly UserContext _context;
 		private readonly IPublishEndpoint _publishEndpoint;
+		private readonly UserManager<IdentityUser> _userManager;
 
-		public UserRepository(UserContext context, IPublishEndpoint publishEndpoint)
+		public UserRepository(UserContext context,
+			IPublishEndpoint publishEndpoint,
+			UserManager<IdentityUser> userManager)
 		{
 			_context = context;
 			_publishEndpoint = publishEndpoint;
+			_userManager = userManager;
 		}
 
 		public async Task<User> Add(User user, CancellationToken cancellationToken)
@@ -53,7 +59,7 @@ namespace UserInfra.Repositories
 				return null;
 			}
 
-			requestedUser.Name = user.Name;
+			requestedUser.Username = user.Username;
 			requestedUser.Email = user.Email;
 
 			_context.Users.Update(requestedUser);
@@ -70,8 +76,16 @@ namespace UserInfra.Repositories
 
 		public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken)
 		{
-			User? requestedUser = await _context.Users.SingleOrDefaultAsync(x => x.Email == email, cancellationToken);
-			return requestedUser;
+			IdentityUser? user = await _userManager.FindByEmailAsync(email) 
+			?? throw new Exception("Usuário não foi encontrado");
+			
+			User newUser = new()
+			{
+				Email = email,
+				Username = user.UserName
+			};
+
+			return newUser;
 		}
 	}
 }

@@ -14,9 +14,9 @@ namespace UserInfra.Context.Authentication
 			_userManager = userManager;
 		}
 
-		public async Task<bool> AuthenticateAsync(string email, string password)
+		public async Task<bool> AuthenticateAsync(string username, string password)
 		{
-			var result = await _signInManager.PasswordSignInAsync(email, password,
+			var result = await _signInManager.PasswordSignInAsync(username, password,
 				false, lockoutOnFailure: false);
 
 			return result.Succeeded;
@@ -27,11 +27,11 @@ namespace UserInfra.Context.Authentication
 			await _signInManager.SignOutAsync();
 		}
 
-		public async Task<string> RegisterUser(string email, string password)
+		public async Task<string> RegisterUser(string email, string password, string username)
 		{
 			IdentityUser appUser = new()
 			{ 
-				UserName = email,
+				UserName = username,
 				Email = email
 			};
 

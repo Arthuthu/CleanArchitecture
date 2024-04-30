@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UserApi.Dtos.Authentication;
+using UserApplication.Abstractions.AppServices;
+using UserDomain.Entities;
 using UserInfra.Context.Authentication;
 
 namespace UserApi.Controllers.v1
@@ -13,6 +15,7 @@ namespace UserApi.Controllers.v1
 	{
 		private readonly IConfiguration _configuration;
 		private readonly IAuthenticate _authentication;
+		private readonly IUserAppService _userAppService;
 
 		public AccountController(IConfiguration configuration, IAuthenticate authentication)
 		{
@@ -20,11 +23,11 @@ namespace UserApi.Controllers.v1
 			_authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));
 		}
 
-		[HttpPost("v1/createuser")]
+		[HttpPost("v1/register")]
 		[ProducesResponseType (200)]
 		[ProducesResponseType (400)]
 		[AllowAnonymous]
-		public async Task<ActionResult<UserToken>> CreateUser([FromBody] RegisterModel model)
+		public async Task<ActionResult<UserToken>> Register([FromBody] RegisterModel model)
 		{
 			if (model.Password != model.ConfirmPassword)
 			{
@@ -37,7 +40,7 @@ namespace UserApi.Controllers.v1
 				return BadRequest("O campo email ou senha não foram preenchidos");
 			}
 
-			string response = await _authentication.RegisterUser(model.Email!, model.Password!);
+			string response = await _authentication.RegisterUser(model.Email!, model.Password!, model.Username!);
 			
 			if (response == "Usuário registrado")
 			{
@@ -50,14 +53,14 @@ namespace UserApi.Controllers.v1
 
 		[HttpPost("v1/login")]
 		[AllowAnonymous]
-		public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
+		public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo, CancellationToken ct)
 		{
-			if (string.IsNullOrEmpty(userInfo.Email) && string.IsNullOrWhiteSpace(userInfo.Password))
+			if (string.IsNullOrEmpty(userInfo.Username) && string.IsNullOrWhiteSpace(userInfo.Password))
 			{
-				return BadRequest("O campo email ou senha não foram preenchidos");
+				return NotFound("O campo email ou senha não foram preenchidos");
 			}
 
-			bool result = await _authentication.AuthenticateAsync(userInfo.Email!, userInfo.Password!);
+			bool result = await _authentication.AuthenticateAsync(userInfo.Username!, userInfo.Password!);
 
 			if (result)
 			{
@@ -65,14 +68,14 @@ namespace UserApi.Controllers.v1
 			}
 
 			ModelState.AddModelError("LoginUser", "Login inválido");
-			return BadRequest(ModelState);
+			return NotFound(ModelState);
 		}
 
 		private ActionResult<UserToken> GenerateToken(LoginModel userInfo)
 		{
 			Claim[] claims =
 			[
-				new Claim("email", userInfo.Email!),
+				new Claim("username", userInfo.Username!),
 				new Claim("meuToken", "token"),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			];
@@ -97,7 +100,8 @@ namespace UserApi.Controllers.v1
 			return new UserToken()
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
-				Expiration = tokenExpiration
+				Expiration = tokenExpiration,
+				Username = userInfo.Username
 			};
 		}
 	}

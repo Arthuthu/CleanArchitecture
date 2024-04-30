@@ -142,5 +142,30 @@ namespace UserApi.Controllers.v1
                     $"An error has ocurred while deleting the user: {ex.Message}");
             }
         }
-    }
+
+		[HttpGet]
+		[Route("v1/user/getbyemail/{email}")]
+		[ProducesResponseType(typeof(UserResponse), 200),
+        ProducesResponseType(404), ProducesResponseType(500)]
+        [AllowAnonymous]
+		public async Task<IActionResult> GetByEmail(string email, CancellationToken cancellationToken)
+		{
+			try
+			{
+				User? user = await _service.GetByEmail(email, cancellationToken);
+
+				if (user is null)
+				{
+					return NotFound("User not found");
+				}
+
+				return Ok(_mapper.Map<UserResponse>(user));
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError,
+					$"An error has occurred while searching for the user {ex.Message}");
+			}
+		}
+	}
 }

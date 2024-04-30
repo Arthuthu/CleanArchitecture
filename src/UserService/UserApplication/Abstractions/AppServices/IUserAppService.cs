@@ -9,5 +9,6 @@ namespace UserApplication.Abstractions.AppServices
         Task<List<User>> Get(CancellationToken cancellationToken);
         Task<User?> Get(Guid id, CancellationToken cancellationToken);
         Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken);
-    }
+        Task<User?> GetByEmail(string email, CancellationToken cancellationToken);
+	}
 }

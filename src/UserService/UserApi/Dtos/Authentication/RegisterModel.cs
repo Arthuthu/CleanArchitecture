@@ -4,6 +4,8 @@ namespace UserApi.Dtos.Authentication
 {
 	public sealed class RegisterModel
 	{
+		public string? Username { get; set; }
+
 		[Required]
 		[EmailAddress]
 		public string? Email { get; set; }

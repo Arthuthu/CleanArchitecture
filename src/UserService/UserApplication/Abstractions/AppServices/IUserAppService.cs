@@ -7,7 +7,6 @@ namespace UserApplication.Abstractions.AppServices
     {
         Task<List<IdentityUser>> Get();
         Task<IdentityUser?> Get(Guid id);
-        Task<IdentityUser?> Update(Guid userId, IdentityUser user);
 		Task<bool> Delete(Guid id);
 		Task<IdentityUser?> GetByEmail(string email);
 	}

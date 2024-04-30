@@ -70,31 +70,6 @@ namespace UserApi.Controllers.v1
             }
         }
 
-        [HttpPut]
-        [Route("v1/user/update/{userId}")]
-		[ProducesResponseType (200),
-		 ProducesResponseType(404), ProducesResponseType(500)]
-		public async Task<IActionResult> Update(Guid userId, [FromBody] UserRequest userRequest )
-        {
-            try
-            {
-				IdentityUser user = _mapper.Map<IdentityUser>(userRequest);
-				IdentityUser? result = await _service.Update(userId, user);
-
-                if (result is null)
-                {
-                    return NotFound("User not found");
-                }
-
-                return Ok(_mapper.Map<UserResponse>(result));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                    $"An error has ocurred when updating the user: {ex.Message}");
-            }
-        }
-
         [HttpDelete]
         [Route("v1/user/delete/{id}")]
 		[ProducesResponseType(200),

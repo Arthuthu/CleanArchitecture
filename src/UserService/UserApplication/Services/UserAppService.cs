@@ -23,11 +23,6 @@ namespace UserApplication.Services
 			return await _repository.Get();
 		}
 
-		public async Task<IdentityUser?> Update(Guid userId, IdentityUser user)
-		{
-			return await _repository.Update(userId, user);
-		}
-
 		public async Task<bool> Delete(Guid id)
 		{
 			return await _repository.Delete(id);

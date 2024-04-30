@@ -10,15 +10,11 @@ namespace UserInfra.Repositories
 {
 	public sealed class UserRepository : IUserRepository
 	{
-		private readonly UserContext _context;
 		private readonly IPublishEndpoint _publishEndpoint;
 		private readonly UserManager<IdentityUser> _userManager;
 
-		public UserRepository(UserContext context,
-			IPublishEndpoint publishEndpoint,
-			UserManager<IdentityUser> userManager)
+		public UserRepository(IPublishEndpoint publishEndpoint, UserManager<IdentityUser> userManager)
 		{
-			_context = context;
 			_publishEndpoint = publishEndpoint;
 			_userManager = userManager;
 		}

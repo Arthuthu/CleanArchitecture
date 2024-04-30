@@ -1,6 +1,6 @@
-﻿using UserApplication.Abstractions.AppServices;
+﻿using Microsoft.AspNetCore.Identity;
+using UserApplication.Abstractions.AppServices;
 using UserApplication.Abstractions.Repositories;
-using UserDomain.Entities;
 
 namespace UserApplication.Services
 {
@@ -13,41 +13,29 @@ namespace UserApplication.Services
 			_repository = repository;
 		}
 
-		public async Task<User?> Add(User user, CancellationToken cancellationToken)
+		public async Task<IdentityUser?> Get(Guid id)
 		{
-			User? requestedUser = await _repository.GetByEmail(user.Email!, cancellationToken);
-
-			if (requestedUser is not null)
-			{
-				return null;
-			}
-
-			return await _repository.Add(user, cancellationToken);
+			return await _repository.Get(id);
 		}
 
-		public async Task<User?> Get(Guid id, CancellationToken cancellationToken)
+		public async Task<List<IdentityUser>> Get()
 		{
-			return await _repository.Get(id, cancellationToken);
+			return await _repository.Get();
 		}
 
-		public async Task<List<User>> Get(CancellationToken cancellationToken)
+		public async Task<IdentityUser?> Update(Guid userId, IdentityUser user)
 		{
-			return await _repository.Get(cancellationToken);
+			return await _repository.Update(userId, user);
 		}
 
-		public async Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken)
+		public async Task<bool> Delete(Guid id)
 		{
-			return await _repository.Update(userId, user, cancellationToken);
+			return await _repository.Delete(id);
 		}
 
-		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
+		public async Task<IdentityUser?> GetByEmail(string email)
 		{
-			return await _repository.Delete(id, cancellationToken);
-		}
-
-		public async Task<User?> GetByEmail(string email, CancellationToken cancellationToken)
-		{
-			User? requestedUser = await _repository.GetByEmail(email, cancellationToken);
+			IdentityUser? requestedUser = await _repository.GetByEmail(email);
 			return requestedUser;
 		}
 	}

@@ -53,25 +53,25 @@ namespace UserApi.Controllers.v1
 
 		[HttpPost("v1/login")]
 		[AllowAnonymous]
-		public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo, CancellationToken ct)
+		public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
 		{
 			if (string.IsNullOrEmpty(userInfo.Username) && string.IsNullOrWhiteSpace(userInfo.Password))
 			{
-				return NotFound("O campo email ou senha não foram preenchidos");
+				return NotFound("O campo usuário ou senha não foram preenchidos");
 			}
 
 			bool result = await _authentication.AuthenticateAsync(userInfo.Username!, userInfo.Password!);
 
 			if (result)
 			{
-				return GenerateToken(userInfo);
+				return GenerateToken(userInfo, userInfo!.Username!);
 			}
 
 			ModelState.AddModelError("LoginUser", "Login inválido");
 			return NotFound(ModelState);
 		}
 
-		private ActionResult<UserToken> GenerateToken(LoginModel userInfo)
+		private ActionResult<UserToken> GenerateToken(LoginModel userInfo, string username)
 		{
 			Claim[] claims =
 			[
@@ -101,7 +101,7 @@ namespace UserApi.Controllers.v1
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
 				Expiration = tokenExpiration,
-				Username = userInfo.Username
+				Username = username
 			};
 		}
 	}

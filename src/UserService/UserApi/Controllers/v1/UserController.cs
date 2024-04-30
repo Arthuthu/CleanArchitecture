@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserApi.Dtos.Requests;
 using UserApi.Dtos.Responses;
@@ -21,40 +22,15 @@ namespace UserApi.Controllers.v1
             _service = appService;
         }
 
-        [HttpPost]
-        [Route("v1/user/add")]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK),
-         ProducesResponseType(StatusCodes.Status400BadRequest), ProducesResponseType(500)]
-        public async Task<IActionResult> Add([FromBody] UserRequest userRequest, CancellationToken cancellationToken)
-        {
-            try
-            {
-                User user = _mapper.Map<User>(userRequest);
-                User? result = await _service.Add(user, cancellationToken);
-
-                if (user is null)
-                {
-                    return BadRequest("This email has already been registered");
-                }
-
-                return Ok(_mapper.Map<UserResponse>(result));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                    $"An error has occurred when registering the user {ex.Message} ");
-            }
-        }
-
         [HttpGet]
         [Route("v1/user/get/{id}")]
         [ProducesResponseType(typeof(UserResponse), 200),
          ProducesResponseType(404), ProducesResponseType(500)]
-        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-                User? user = await _service.Get(id, cancellationToken);
+                IdentityUser? user = await _service.Get(id);
 
                 if (user is null)
                 {
@@ -74,11 +50,11 @@ namespace UserApi.Controllers.v1
         [Route("v1/user/get")]
 		[ProducesResponseType(typeof(List<UserResponse>), 200),
 		 ProducesResponseType(404), ProducesResponseType(500)]
-		public async Task<IActionResult> Get(CancellationToken cancellationToken)
+		public async Task<IActionResult> Get()
         {
             try
             {
-                List<User> users = await _service.Get(cancellationToken);
+                List<IdentityUser> users = await _service.Get();
 
                 if (users.Count == 0)
                 {
@@ -98,12 +74,12 @@ namespace UserApi.Controllers.v1
         [Route("v1/user/update/{userId}")]
 		[ProducesResponseType (200),
 		 ProducesResponseType(404), ProducesResponseType(500)]
-		public async Task<IActionResult> Update(Guid userId, [FromBody] UserRequest userRequest, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update(Guid userId, [FromBody] UserRequest userRequest )
         {
             try
             {
-                User user = _mapper.Map<User>(userRequest);
-                User? result = await _service.Update(userId, user, cancellationToken);
+				IdentityUser user = _mapper.Map<IdentityUser>(userRequest);
+				IdentityUser? result = await _service.Update(userId, user);
 
                 if (result is null)
                 {
@@ -127,19 +103,19 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                bool result = await _service.Delete(id, cancellationToken);
+                bool result = await _service.Delete(id);
 
                 if (result is false)
                 {
-                    return NotFound("User not found");
+                    return NotFound("Usuário não encontrado");
                 }
 
-                return Ok("User successfully deleted");
+                return Ok("Usuário deletado");
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, 
-                    $"An error has ocurred while deleting the user: {ex.Message}");
+                    $"Ocorreu um erro ao deletar o usuário: {ex.Message}");
             }
         }
 
@@ -148,15 +124,15 @@ namespace UserApi.Controllers.v1
 		[ProducesResponseType(typeof(UserResponse), 200),
         ProducesResponseType(404), ProducesResponseType(500)]
         [AllowAnonymous]
-		public async Task<IActionResult> GetByEmail(string email, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetByEmail(string email)
 		{
 			try
 			{
-				User? user = await _service.GetByEmail(email, cancellationToken);
+				IdentityUser? user = await _service.GetByEmail(email);
 
 				if (user is null)
 				{
-					return NotFound("User not found");
+					return NotFound("Usuário não encontrado");
 				}
 
 				return Ok(_mapper.Map<UserResponse>(user));
@@ -164,7 +140,7 @@ namespace UserApi.Controllers.v1
 			catch (Exception ex)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError,
-					$"An error has occurred while searching for the user {ex.Message}");
+					$"Ocorreu um erro ao encontrar o usuário por email: {ex.Message}");
 			}
 		}
 	}

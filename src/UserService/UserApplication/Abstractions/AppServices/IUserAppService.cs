@@ -1,14 +1,14 @@
-﻿using UserDomain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using UserDomain.Entities;
 
 namespace UserApplication.Abstractions.AppServices
 {
     public interface IUserAppService
     {
-        Task<User?> Add(User user, CancellationToken cancellationToken);
-        Task<bool> Delete(Guid id, CancellationToken cancellationToken);
-        Task<List<User>> Get(CancellationToken cancellationToken);
-        Task<User?> Get(Guid id, CancellationToken cancellationToken);
-        Task<User?> Update(Guid userId, User user, CancellationToken cancellationToken);
-        Task<User?> GetByEmail(string email, CancellationToken cancellationToken);
+        Task<List<IdentityUser>> Get();
+        Task<IdentityUser?> Get(Guid id);
+        Task<IdentityUser?> Update(Guid userId, IdentityUser user);
+		Task<bool> Delete(Guid id);
+		Task<IdentityUser?> GetByEmail(string email);
 	}
 }

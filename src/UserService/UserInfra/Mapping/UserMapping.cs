@@ -14,7 +14,7 @@ namespace UserInfra.Mapping
 			base.Configure(builder);
 
 			builder.HasKey(x => x.Id);
-			builder.Property(x => x.Username).HasMaxLength(256);
+			builder.Property(x => x.Name).HasMaxLength(256);
 			builder.Property(x => x.Email).HasMaxLength(256);
 			builder.Property(x => x.Password).HasMaxLength(32);
 

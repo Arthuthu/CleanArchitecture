@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TreinoApplication.Abstractions;
+using TreinoApplication.Services;
 using TreinoInfra.Context;
+using TreinoInfra.Repositories;
 
 namespace TreinoApi.Configuration
 {
@@ -8,9 +11,10 @@ namespace TreinoApi.Configuration
 		public static IServiceCollection AddApplicationDependencyInjection(this IServiceCollection services)
 		{
 			//AppService
+			services.AddScoped<ITreinoService, TreinoService>();
 
 			//Repository
-
+			services.AddScoped<ITreinoRepository, TreinoRepository>();
 
 			return services;
 		}

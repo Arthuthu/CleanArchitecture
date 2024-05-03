@@ -3,14 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UserApi.Dtos.Requests;
 using UserApi.Dtos.Responses;
 using UserApplication.Abstractions.AppServices;
-using UserDomain.Entities;
 
 namespace UserApi.Controllers.v1
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class UserController : Controller
     {
         private readonly IUserAppService _service;

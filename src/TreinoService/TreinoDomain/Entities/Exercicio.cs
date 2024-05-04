@@ -4,6 +4,8 @@ namespace TreinoDomain.Entities
 {
 	public sealed class Exercicio : Entity
 	{
+		public Guid TreinoId { get; set; }
+
 		public string? Nome { get; set; }
 		public decimal Carga { get; set; }
 		public int Serie { get; set; }

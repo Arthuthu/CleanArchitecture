@@ -18,7 +18,8 @@ namespace TreinoInfra.Mapping
 			builder.HasKey(x => x.Id);
 
 			builder.Property(x => x.Nome).HasMaxLength(50);
-			builder.HasMany(x => x.Exercicios).WithOne(x => x.Treino).OnDelete(DeleteBehavior.Cascade);
+			builder.HasMany(x => x.Exercicios).WithOne(x => x.Treino)
+				.HasForeignKey(x => x.TreinoId).OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

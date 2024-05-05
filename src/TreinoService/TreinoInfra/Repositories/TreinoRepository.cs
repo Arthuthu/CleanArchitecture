@@ -7,9 +7,9 @@ namespace TreinoInfra.Repositories
 {
 	public sealed class TreinoRepository : ITreinoRepository
 	{
-		private readonly TreinoContext _context;
+		private readonly ApplicationDbContext _context;
 
-		public TreinoRepository(TreinoContext context)
+		public TreinoRepository(ApplicationDbContext context)
 		{
 			_context = context;
 		}

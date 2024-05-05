@@ -11,7 +11,7 @@ using TreinoInfra.Context;
 
 namespace TreinoInfra.Migrations
 {
-    [DbContext(typeof(TreinoContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240503204120_AddInitialTreinoMigration")]
     partial class AddInitialTreinoMigration
     {

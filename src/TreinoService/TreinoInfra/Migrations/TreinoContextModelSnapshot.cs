@@ -10,7 +10,7 @@ using TreinoInfra.Context;
 
 namespace TreinoInfra.Migrations
 {
-    [DbContext(typeof(TreinoContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class TreinoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

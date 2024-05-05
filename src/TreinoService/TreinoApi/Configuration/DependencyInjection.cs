@@ -22,10 +22,10 @@ namespace TreinoApi.Configuration
 		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services,
 			IConfiguration config)
 		{
-			services.AddDbContext<TreinoContext>(options =>
+			services.AddDbContext<ApplicationDbContext>(options =>
 			{
 				options.UseSqlServer(config.GetConnectionString("TreinoConnection"),
-					assembly => assembly.MigrationsAssembly(typeof(TreinoContext)
+					assembly => assembly.MigrationsAssembly(typeof(ApplicationDbContext)
 					.Assembly.FullName));
 			});
 

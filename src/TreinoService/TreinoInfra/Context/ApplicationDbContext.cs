@@ -3,9 +3,9 @@ using TreinoDomain.Entities;
 
 namespace TreinoInfra.Context
 {
-	public sealed class TreinoContext : DbContext
+	public sealed class ApplicationDbContext : DbContext
 	{
-		public TreinoContext(DbContextOptions<TreinoContext> options) : base(options)
+		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 		{
 		}
 

@@ -64,18 +64,17 @@ namespace UserApi.Controllers.v1
 
 			if (result)
 			{
-				return GenerateToken(userInfo, userInfo!.Username!);
+				return GenerateToken(userInfo);
 			}
 
 			ModelState.AddModelError("LoginUser", "Login inválido");
 			return NotFound(ModelState);
 		}
 
-		private ActionResult<UserToken> GenerateToken(LoginModel userInfo, string username)
+		private ActionResult<UserToken> GenerateToken(LoginModel userInfo)
 		{
 			Claim[] claims =
 			[
-				new Claim("username", userInfo.Username!),
 				new Claim("meuToken", "token"),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 			];
@@ -100,8 +99,7 @@ namespace UserApi.Controllers.v1
 			return new UserToken()
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
-				Expiration = tokenExpiration,
-				Username = username
+				Expiration = tokenExpiration
 			};
 		}
 	}

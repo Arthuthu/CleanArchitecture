@@ -7,7 +7,6 @@ using System.Security.Claims;
 using System.Text;
 using UserApi.Dtos.Authentication;
 using UserApplication.Abstractions.AppServices;
-using UserDomain.Entities;
 using UserInfra.Context.Authentication;
 
 namespace UserApi.Controllers.v1
@@ -18,10 +17,13 @@ namespace UserApi.Controllers.v1
 		private readonly IAuthenticate _authentication;
 		private readonly IUserAppService _userAppService;
 
-		public AccountController(IConfiguration configuration, IAuthenticate authentication)
+		public AccountController(IConfiguration configuration,
+			IAuthenticate authentication,
+			IUserAppService userAppService)
 		{
 			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			_authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));
+			_userAppService = userAppService;
 		}
 
 		[HttpPost("v1/register")]

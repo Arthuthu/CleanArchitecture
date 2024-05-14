@@ -8,5 +8,6 @@ namespace UserApplication.Abstractions.Repositories
 		Task<List<IdentityUser>> Get();
 		Task<bool> Delete(Guid id);
 		Task<IdentityUser?> GetByEmail(string email);
+		Task<IdentityUser?> GetByUsername(string username);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -64,14 +65,18 @@ namespace UserApi.Controllers.v1
 
 			if (result)
 			{
-				return GenerateToken(userInfo);
+				IdentityUser? user = await _userAppService.GetByUsername(userInfo.Username!);
+
+				return user is null 
+					? throw new Exception("Não foi possivel carregar informações do usuário") 
+					: GenerateToken(userInfo, user.Id);
 			}
 
 			ModelState.AddModelError("LoginUser", "Login inválido");
 			return NotFound(ModelState);
 		}
 
-		private ActionResult<UserToken> GenerateToken(LoginModel userInfo)
+		private ActionResult<UserToken> GenerateToken(LoginModel userInfo, string id)
 		{
 			Claim[] claims =
 			[
@@ -99,7 +104,8 @@ namespace UserApi.Controllers.v1
 			return new UserToken()
 			{
 				Token = new JwtSecurityTokenHandler().WriteToken(token),
-				Expiration = tokenExpiration
+				Expiration = tokenExpiration,
+				Id = id
 			};
 		}
 	}

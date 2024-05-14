@@ -33,5 +33,11 @@ namespace UserApplication.Services
 			IdentityUser? requestedUser = await _repository.GetByEmail(email);
 			return requestedUser;
 		}
+
+		public async Task<IdentityUser?> GetByUsername(string username)
+		{
+			IdentityUser? requestedUser = await _repository.GetByUsername(username);
+			return requestedUser;
+		}
 	}
 }

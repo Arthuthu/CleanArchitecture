@@ -102,8 +102,7 @@ namespace UserApi.Configuration
 						ValidateIssuerSigningKey = true,
 						ValidIssuer = config["Jwt:Issuer"],
 						ValidAudience = config["Jwt:Issuer"],
-						IssuerSigningKey = new SymmetricSecurityKey(
-							Encoding.UTF8.GetBytes(securitKey))
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securitKey))
 					};
 				});
 

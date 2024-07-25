@@ -32,7 +32,7 @@ namespace UserApi.Controllers.v1
 
                 if (user is null)
                 {
-                    return NotFound("User not found");
+                    return NotFound(StatusCodes.Status404NotFound);
                 }
 
                 return Ok(_mapper.Map<UserResponse>(user));
@@ -56,7 +56,7 @@ namespace UserApi.Controllers.v1
 
                 if (users.Count == 0)
                 {
-                    return NotFound("No users found");
+                    return NotFound(StatusCodes.Status404NotFound);
                 }
 
                 return Ok(_mapper.Map<List<UserResponse>>(users));
@@ -80,7 +80,7 @@ namespace UserApi.Controllers.v1
 
                 if (result is false)
                 {
-                    return NotFound("Usuário não encontrado");
+                    return NotFound(StatusCodes.Status404NotFound);
                 }
 
                 return Ok("Usuário deletado");
@@ -105,7 +105,7 @@ namespace UserApi.Controllers.v1
 
 				if (user is null)
 				{
-					return NotFound("Usuário não encontrado");
+					return NotFound(StatusCodes.Status404NotFound);
 				}
 
 				return Ok(_mapper.Map<UserResponse>(user));
@@ -116,5 +116,31 @@ namespace UserApi.Controllers.v1
 					$"Ocorreu um erro ao encontrar o usuário por email: {ex.Message}");
 			}
 		}
+
+        [HttpGet]
+        [Route("v1/user/getbyusername/{username}")]
+        [ProducesResponseType(typeof(UserResponse), 200),
+        ProducesResponseType(404), ProducesResponseType(500)]
+        [AllowAnonymous]
+        public async Task <IActionResult> GetByUsername(string username)
+        {
+            try
+            {
+                IdentityUser? user = await _service.GetByUsername(username);
+
+                if(user is null)
+                {
+                    return NotFound(StatusCodes.Status404NotFound);
+                }
+
+                return Ok(_mapper.Map<UserResponse>(user));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Ocorreu um erro ao encontrar o usuário por username: { ex.Message }");
+                throw;
+            }
+        }
 	}
 }

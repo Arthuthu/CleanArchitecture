@@ -1,15 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using UserApplication.Abstractions.AppServices;
 using UserApplication.Abstractions.Repositories;
 using UserApplication.Services;
 using UserDomain.Context;
-using MassTransit;
 using UserInfra.Repositories;
-using Microsoft.AspNetCore.Identity;
-using UserInfra.Context.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace UserApi.Configuration
 {
@@ -22,9 +21,6 @@ namespace UserApi.Configuration
 
 			//Repository
 			services.AddScoped<IUserRepository, UserRepository>();
-
-			//Others
-			services.AddScoped<IAuthenticate, AuthenticateService>();
 
 			return services;
 		}

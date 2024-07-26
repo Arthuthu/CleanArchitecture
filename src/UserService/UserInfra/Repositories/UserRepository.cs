@@ -2,51 +2,53 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UserApplication.Abstractions.Repositories;
+using UserDomain.Context;
+using UserDomain.Entities;
 
 namespace UserInfra.Repositories
 {
 	public sealed class UserRepository : IUserRepository
 	{
 		private readonly IPublishEndpoint _publishEndpoint;
-		private readonly UserManager<IdentityUser> _userManager;
+		private readonly UserContext _context;
 
-		public UserRepository(IPublishEndpoint publishEndpoint, UserManager<IdentityUser> userManager)
+		public UserRepository(IPublishEndpoint publishEndpoint, UserContext context)
 		{
 			_publishEndpoint = publishEndpoint;
-			_userManager = userManager;
+			_context = context;
 		}
 
-		public async Task<IdentityUser?> Get(Guid id)
+		public async Task<User?> Get(Guid id)
 		{
-			IdentityUser? user = await _userManager.FindByIdAsync(id.ToString());
+			User? user = await _context.User.FindAsync(id);
 			return user;
 		}
 
-		public async Task<List<IdentityUser>> Get()
+		public async Task<List<User>> Get()
 		{
-			List<IdentityUser> users = await _userManager.Users.ToListAsync();
+			List<User> users = await _context.User.ToListAsync();
 			return users;
 		}
-		public async Task<bool> Delete(Guid id )
+		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
 		{
-			IdentityUser? user = await _userManager.FindByIdAsync(id.ToString())
+			User? user = await _context.User.FindAsync(id)
 				?? throw new Exception("Ocorreu um erro ao deletar o usuário: Usuário não encontrado");
 
-			IdentityResult result = await _userManager.DeleteAsync(user);
-			return result.Succeeded;
+			int affectedRows = await _context.User.Where(x => x.Id == id).ExecuteDeleteAsync(cancellationToken);
+			return affectedRows > 0;
 		}
 
-		public async Task<IdentityUser?> GetByEmail(string email)
+		public async Task<User?> GetByEmail(string email)
 		{
-			IdentityUser? user = await _userManager.FindByEmailAsync(email) 
+			User? user = await _context.User.Where(x => x.Email == email).FirstOrDefaultAsync()
 			?? throw new Exception("Usuário não foi encontrado por email");
-			
+
 			return user;
 		}
 
-		public async Task<IdentityUser?> GetByUsername(string username)
+		public async Task<User?> GetByUsername(string username)
 		{
-			IdentityUser? user = await _userManager.FindByNameAsync(username)
+			User? user = await _context.User.Where(x => x.Username == username).FirstOrDefaultAsync()
 			?? throw new Exception("Usuário não foi encontrado por nome");
 
 			return user;

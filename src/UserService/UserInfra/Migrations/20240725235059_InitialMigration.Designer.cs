@@ -12,8 +12,8 @@ using UserDomain.Context;
 namespace UserInfra.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240321233614_AddedSubscriptionIdProperty")]
-    partial class AddedSubscriptionIdProperty
+    [Migration("20240725235059_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,10 +35,6 @@ namespace UserInfra.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.Property<string>("Password")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
@@ -46,11 +42,15 @@ namespace UserInfra.Migrations
                     b.Property<Guid?>("SubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Username")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("User", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserApi.Dtos.Responses;
 using UserApplication.Abstractions.AppServices;
+using UserDomain.Entities;
 
 namespace UserApi.Controllers.v1
 {
@@ -28,7 +28,7 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                IdentityUser? user = await _service.Get(id);
+				User? user = await _service.Get(id);
 
                 if (user is null)
                 {
@@ -52,7 +52,7 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                List<IdentityUser> users = await _service.Get();
+                List<User> users = await _service.Get();
 
                 if (users.Count == 0)
                 {
@@ -76,7 +76,7 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                bool result = await _service.Delete(id);
+                bool result = await _service.Delete(id, cancellationToken);
 
                 if (result is false)
                 {
@@ -101,7 +101,7 @@ namespace UserApi.Controllers.v1
 		{
 			try
 			{
-				IdentityUser? user = await _service.GetByEmail(email);
+				User? user = await _service.GetByEmail(email);
 
 				if (user is null)
 				{
@@ -126,7 +126,7 @@ namespace UserApi.Controllers.v1
         {
             try
             {
-                IdentityUser? user = await _service.GetByUsername(username);
+				User? user = await _service.GetByUsername(username);
 
                 if(user is null)
                 {

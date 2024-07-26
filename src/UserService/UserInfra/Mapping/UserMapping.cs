@@ -5,7 +5,7 @@ namespace UserInfra.Mapping
 {
 	public class UserMapping : BaseMapping<User>
 	{
-        public UserMapping() : base("Users")
+        public UserMapping() : base("User")
         {
         }
 

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using UserApplication.Abstractions.AppServices;
+﻿using UserApplication.Abstractions.AppServices;
 using UserApplication.Abstractions.Repositories;
+using UserDomain.Entities;
 
 namespace UserApplication.Services
 {
@@ -13,30 +13,30 @@ namespace UserApplication.Services
 			_repository = repository;
 		}
 
-		public async Task<IdentityUser?> Get(Guid id)
+		public async Task<User?> Get(Guid id)
 		{
 			return await _repository.Get(id);
 		}
 
-		public async Task<List<IdentityUser>> Get()
+		public async Task<List<User>> Get()
 		{
 			return await _repository.Get();
 		}
 
-		public async Task<bool> Delete(Guid id)
+		public async Task<bool> Delete(Guid id, CancellationToken cancellationToken)
 		{
-			return await _repository.Delete(id);
+			return await _repository.Delete(id, cancellationToken);
 		}
 
-		public async Task<IdentityUser?> GetByEmail(string email)
+		public async Task<User?> GetByEmail(string email)
 		{
-			IdentityUser? requestedUser = await _repository.GetByEmail(email);
+			User? requestedUser = await _repository.GetByEmail(email);
 			return requestedUser;
 		}
 
-		public async Task<IdentityUser?> GetByUsername(string username)
+		public async Task<User?> GetByUsername(string username)
 		{
-			IdentityUser? requestedUser = await _repository.GetByUsername(username);
+			User? requestedUser = await _repository.GetByUsername(username);
 			return requestedUser;
 		}
 	}

@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject IUserService UserService
+
+<PageTitle>Home</PageTitle>
+
+@if (Users is not null)
+{
+    foreach (var user in Users)
+    {
+        <div>@user.Username</div>
+        <div>@user.Email</div>
+    }
+}
+
+
+@code
+{
+    protected List<User>? Users { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAllUsers();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetAllUsers()
+    {
+        Users = await UserService.GetAllUsers();
+    }
+}

@@ -45,6 +45,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreinoDomain", "src\TreinoS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreinoInfra", "src\TreinoService\TreinoInfra\TreinoInfra.csproj", "{6094E16E-70CF-41BF-A11C-51124CE1B4DD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontBlazor", "FrontBlazor", "{E6BFC862-786C-4A3F-BCB6-A0BE6D5A8119}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureFront", "CleanArchitectureFront\CleanArchitectureFront.csproj", "{39E8C841-D716-4419-BD20-E5932B46942C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{6094E16E-70CF-41BF-A11C-51124CE1B4DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6094E16E-70CF-41BF-A11C-51124CE1B4DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6094E16E-70CF-41BF-A11C-51124CE1B4DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E8C841-D716-4419-BD20-E5932B46942C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E8C841-D716-4419-BD20-E5932B46942C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E8C841-D716-4419-BD20-E5932B46942C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E8C841-D716-4419-BD20-E5932B46942C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +135,8 @@ Global
 		{2B127373-9B55-4499-8B00-02C8DE6231C0} = {1B984EDE-E9E1-461D-89DC-C47A13BB8ACC}
 		{B336CC6C-B91F-48DF-8D03-BBAD727E777F} = {1B984EDE-E9E1-461D-89DC-C47A13BB8ACC}
 		{6094E16E-70CF-41BF-A11C-51124CE1B4DD} = {1B984EDE-E9E1-461D-89DC-C47A13BB8ACC}
+		{E6BFC862-786C-4A3F-BCB6-A0BE6D5A8119} = {115875FB-3C56-4435-8198-900A6AC95723}
+		{39E8C841-D716-4419-BD20-E5932B46942C} = {E6BFC862-786C-4A3F-BCB6-A0BE6D5A8119}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {446D13E6-4342-485E-8713-5FC7038CC955}

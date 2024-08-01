@@ -44,7 +44,7 @@ namespace UserApi.Controllers.v1
             }
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         [Route("v1/user/get")]
 		[ProducesResponseType(typeof(List<UserResponse>), 200),
 		 ProducesResponseType(404), ProducesResponseType(500)]

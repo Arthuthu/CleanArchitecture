@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UserDomain.Entities;
 
 namespace UserDomain.Context
 {
-	public sealed class UserContext : DbContext
+    public sealed class UserContext : DbContext
 	{
 		public UserContext(DbContextOptions<UserContext> options) : base(options)
 		{
